@@ -6,14 +6,23 @@ Description
 
 Features
   .NET 7 Core: Utilizes the latest features of .NET 7 Core for optimal performance and reliability.
+  
   Entity Framework Core: Implements Code First approach with Entity Framework Core for SQL Server.
+  
   AutoMapper: Simplifies object-to-object mappings.
+  
   Swagger: Integrated Swagger UI for API testing and documentation.
+  
   Dependency Injection: Implements Dependency Injection for better testing and maintainability.
+  
   Model Validation: Robust model validation to ensure data integrity.
+  
   Repository and Unit of Work Patterns: Implements Repository and Unit of Work patterns to abstract the data layer.
+  
   Caching: Utilizes MemoryCache for efficient caching and retrieval of data.
+
   SOLID Principles: Adheres to SOLID principles for clean and scalable software design.
+  
   Clean Architecture: Follows Clean Architecture guidelines for a maintainable and flexible codebase.
 
 Getting Started
