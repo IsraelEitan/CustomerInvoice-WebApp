@@ -1,4 +1,5 @@
 Customer Invoices Web Application
+
 Description
   This is a .NET 7 Core web-based application designed to manage customer invoices.
   It allows users to view, create, and edit all invoices in the system with a focus on clean architecture and best coding practices.
