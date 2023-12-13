@@ -9,6 +9,7 @@ using CustomerInvoice_WebApp.Helpers;
 using CustomerInvoice_WebApp.Helpers.interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using CustomerInvoice_WebApp.Validators;
+using CustomerInvoice_WebApp.Models;
 
 namespace CustomerInvoice_WebApp.Extensions
 {
@@ -16,6 +17,8 @@ namespace CustomerInvoice_WebApp.Extensions
     {
         public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<PaginationSettings>(configuration.GetSection("Pagination"));
+
             services.AddScoped<IInvoicesService, InvoiceService>();
             services.AddScoped<IInvoiceCacheManager, InvoicesCacheManager>();
             services.AddScoped<IUnitOfWork, InvoicesUnitOfWork>();

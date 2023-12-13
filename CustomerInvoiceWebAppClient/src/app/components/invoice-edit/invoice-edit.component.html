@@ -1,0 +1,20 @@
+<h2>Edit Invoice</h2>
+<form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Date:</label>
+    <input type="date" formControlName="date">
+  </div>
+  <div>
+    <label>Status:</label>
+    <input type="text" formControlName="status">
+  </div>
+  <div>
+    <label>Amount:</label>
+    <input type="number" formControlName="amount">
+  </div>
+  <div>
+    <label>Customer ID:</label>
+    <input type="number" formControlName="customerId">
+  </div>
+  <button type="submit">Update Invoice</button>
+</form>

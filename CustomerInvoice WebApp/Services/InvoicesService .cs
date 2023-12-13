@@ -1,22 +1,40 @@
 ﻿using CustomerInvoice_WebApp.Exceptions;
 using CustomerInvoice_WebApp.Helpers;
+using CustomerInvoice_WebApp.Helpers.interfaces;
 using CustomerInvoice_WebApp.Models;
 using CustomerInvoice_WebApp.Repositories.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 
 namespace CustomerInvoice_WebApp.Services
 {
     public class InvoiceService : IInvoicesService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly InvoicesCacheManager _cacheManager;
+        private readonly IInvoiceCacheManager _cacheManager; 
         private readonly ILogger<InvoiceService> _logger;
+        private readonly PaginationSettings _paginationSettings;
 
-        public InvoiceService(IUnitOfWork unitOfWork, IMemoryCache cache, ILogger<InvoiceService> logger)
+        public InvoiceService(
+            IUnitOfWork unitOfWork,
+            IInvoiceCacheManager cacheManager,  
+            ILogger<InvoiceService> logger,
+            IOptions<PaginationSettings> paginationSettings)
         {
             _unitOfWork = unitOfWork;
-            _cacheManager = new InvoicesCacheManager(cache);
+            _cacheManager = cacheManager; 
             _logger = logger;
+            _paginationSettings = paginationSettings.Value;
+        }
+
+        public async Task<IEnumerable<Invoice>> GetAllInvoicesAsync(int pageNumber, int pageSize)
+        {
+            pageSize = Math.Clamp(pageSize, _paginationSettings.MinPageSize, _paginationSettings.MaxPageSize);
+
+            return await ExecuteWithLoggingAndReturnValueAsync(
+              () => _cacheManager.GetOrSetAllInvoicesAsync(pageNumber, pageSize,
+                  () => _unitOfWork.Invoices.GetAllAsync(pageNumber, pageSize)),
+              $"retrieving all invoices for page {pageNumber} with page size {pageSize}");
         }
 
         public async Task<IEnumerable<Invoice>> GetAllInvoicesAsync()
@@ -55,7 +73,7 @@ namespace CustomerInvoice_WebApp.Services
             {
                 await _unitOfWork.Invoices.AddAsync(invoice);
                 await _unitOfWork.CompleteAsync();
-                _cacheManager.InvalidateAllInvoicesCache();
+                _cacheManager.InvalidateAllPagedInvoicesCache();
             }, "creating a new invoice");
 
             return invoice;
@@ -69,7 +87,7 @@ namespace CustomerInvoice_WebApp.Services
             {
                 await UpdateExistingInvoiceAsync(id, invoice);
                 _cacheManager.InvalidateInvoiceCache(id);
-                _cacheManager.InvalidateAllInvoicesCache();
+                _cacheManager.InvalidateAllPagedInvoicesCache();
             }, $"updating invoice with ID {id}");
         }
 
@@ -83,7 +101,7 @@ namespace CustomerInvoice_WebApp.Services
                 await _unitOfWork.Invoices.DeleteAsync(invoice);
                 await _unitOfWork.CompleteAsync();
                 _cacheManager.InvalidateInvoiceCache(id);
-                _cacheManager.InvalidateAllInvoicesCache();
+                _cacheManager.InvalidateAllPagedInvoicesCache();
             }, $"deleting invoice with ID {id}");
         }
 

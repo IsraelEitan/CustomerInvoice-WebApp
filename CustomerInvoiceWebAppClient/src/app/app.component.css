@@ -1,0 +1,22 @@
+header {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  text-align: center;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+  nav a.active {
+    color: #0056b3;
+  }
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #666;
+}

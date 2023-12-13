@@ -1,5 +1,6 @@
 ﻿using CustomerInvoice_WebApp.Data;
 using CustomerInvoice_WebApp.Exceptions;
+using CustomerInvoice_WebApp.Models;
 using CustomerInvoice_WebApp.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,17 @@ namespace CustomerInvoice_WebApp.Repositories
         {
             _context = context;
             _logger = logger;
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync(int pageNumber, int pageSize)
+        {
+            return await ExecuteWithExceptionHandlingAsync(
+                async () => await _context.Set<T>()
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(),
+                nameof(GetAllAsync)
+                );
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()

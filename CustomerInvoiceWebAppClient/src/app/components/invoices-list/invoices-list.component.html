@@ -1,0 +1,38 @@
+<h2>Invoices List</h2>
+<div *ngIf="invoices && invoices.length; else noInvoices">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Amount</th>
+        <th>Customer ID</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let invoice of invoices">
+        <td>{{ invoice.id }}</td>
+        <td>{{ invoice.date | date }}</td>
+        <td>{{ invoice.status }}</td>
+        <td>{{ invoice.amount | currency }}</td>
+        <td>{{ invoice.customerId }}</td>
+        <td>
+          <button (click)="editInvoice(invoice.id)">Edit</button>
+          <button (click)="deleteInvoice(invoice.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <app-pagination [totalItems]="totalInvoices"
+                  [itemsPerPage]="pageSize"
+                  [currentPage]="currentPage"
+                  (pageChanged)="onPageChange($event)">
+  </app-pagination>
+
+</div>
+<ng-template #noInvoices>
+  <p>No invoices available.</p>
+</ng-template>

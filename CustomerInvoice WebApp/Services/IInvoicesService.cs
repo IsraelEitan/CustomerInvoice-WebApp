@@ -4,6 +4,7 @@ namespace CustomerInvoice_WebApp.Services
 {
     public interface IInvoicesService
     {
+        Task<IEnumerable<Invoice>> GetAllInvoicesAsync(int pageNumber, int pageSize);
         Task<IEnumerable<Invoice>> GetAllInvoicesAsync();
         Task<Invoice> GetInvoiceByIdAsync(int id);
         Task<IEnumerable<Invoice>> GetInvoicesByCustomerIdAsync(int CustomerId);

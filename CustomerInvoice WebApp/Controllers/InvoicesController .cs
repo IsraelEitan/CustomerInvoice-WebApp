@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CustomerInvoice_WebApp.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public sealed class InvoicesController : ControllerBase
     {
         private readonly IInvoicesService _invoiceService;
@@ -20,9 +20,9 @@ namespace CustomerInvoice_WebApp.Controllers
         }
 
         [HttpGet("All")]
-        public async Task<ActionResult<IEnumerable<InvoiceDto>>> GetAllInvoices()
+        public async Task<ActionResult<IEnumerable<InvoiceDto>>> GetAllInvoices(int pageNumber = 1, int pageSize = 10)
         {
-            var invoices = await _invoiceService.GetAllInvoicesAsync();
+            var invoices = await _invoiceService.GetAllInvoicesAsync(pageNumber, pageSize);
             var invoiceDtos = _mapper.Map<IEnumerable<InvoiceDto>>(invoices);
 
             return Ok(invoiceDtos);
