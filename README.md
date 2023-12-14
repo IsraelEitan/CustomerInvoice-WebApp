@@ -1,4 +1,4 @@
-Customer Invoices Web Application
+Customer Invoices Web Application (Server )
 
 Description
   This is a .NET 7 Core web-based application designed to manage customer invoices.
@@ -19,11 +19,18 @@ Features
   
   Repository and Unit of Work Patterns: Implements Repository and Unit of Work patterns to abstract the data layer.
   
-  Caching: Utilizes MemoryCache for efficient caching and retrieval of data.
+  Simple Caching: Utilizes MemoryCache for efficient caching and retrieval of data.
+
+  Simple Paging for better performance 
 
   SOLID Principles: Adheres to SOLID principles for clean and scalable software design.
   
   Clean Architecture: Follows Clean Architecture guidelines for a maintainable and flexible codebase.
+
+
+NOTE:
+    The focus here is only on the Invoices hance the InvoicesController is the only controller that is written here.
+    The Customer models ( dto, model ) is for model demonstration and data purposes only. 
 
 Getting Started
 
