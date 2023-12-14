@@ -19,6 +19,12 @@ namespace CustomerInvoice_WebApp.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Retrieves a paginated list of all invoices.
+        /// </summary>
+        /// <param name="pageNumber">Page number for pagination, default is 1.</param>
+        /// <param name="pageSize">Number of items per page, default is 10.</param>
+        /// <returns>List of InvoiceDto</returns>
         [HttpGet("All")]
         public async Task<ActionResult<IEnumerable<InvoiceDto>>> GetAllInvoices(int pageNumber = 1, int pageSize = 10)
         {
@@ -28,6 +34,10 @@ namespace CustomerInvoice_WebApp.Controllers
             return Ok(invoiceDtos);
         }
 
+        /// <summary>
+        /// Retrieves all overdue invoices.
+        /// </summary>
+        /// <returns>List of overdue InvoiceDto</returns>
         [HttpGet("Overdue")]
         public async Task<ActionResult<IEnumerable<InvoiceDto>>> GetAllOverdueInvoices()
         {
@@ -37,6 +47,11 @@ namespace CustomerInvoice_WebApp.Controllers
             return Ok(overdueInvoicesDtos);
         }
 
+        /// <summary>
+        /// Retrieves all invoices for a specific customer.
+        /// </summary>
+        /// <param name="customerId">The ID of the customer.</param>
+        /// <returns>List of InvoiceDto for the specified customer.</returns>
         [HttpGet("ByCustomer/{customerId}")]
         public async Task<IActionResult> GetInvoicesByCustomer(int customerId)
         {
@@ -46,6 +61,11 @@ namespace CustomerInvoice_WebApp.Controllers
             return Ok(invoiceDtos);
         }
 
+        /// <summary>
+        /// Retrieves a specific invoice by ID.
+        /// </summary>
+        /// <param name="id">The ID of the invoice.</param>
+        /// <returns>An InvoiceDto</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<InvoiceDto>> GetInvoice(int id)
         {
@@ -53,8 +73,13 @@ namespace CustomerInvoice_WebApp.Controllers
             var invoiceDto = _mapper.Map<InvoiceDto>(invoice);
 
             return Ok(invoiceDto);
-        }    
+        }
 
+        /// <summary>
+        /// Creates a new invoice.
+        /// </summary>
+        /// <param name="createInvoiceDto">The invoice creation data.</param>
+        /// <returns>The created InvoiceDto</returns>
         [HttpPost]
         public async Task<ActionResult<InvoiceDto>> CreateInvoice(CreateInvoiceDto createInvoiceDto)
         {
@@ -65,6 +90,11 @@ namespace CustomerInvoice_WebApp.Controllers
             return CreatedAtAction(nameof(GetInvoice), new { id = invoiceDto.Id }, invoiceDto);
         }
 
+        /// <summary>
+        /// Updates an existing invoice.
+        /// </summary>
+        /// <param name="id">The ID of the invoice to update.</param>
+        /// <param name="updateInvoiceDto">The updated invoice data.</param>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateInvoice(int id, UpdateInvoiceDto updateInvoiceDto)
         {
@@ -75,6 +105,10 @@ namespace CustomerInvoice_WebApp.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes an invoice.
+        /// </summary>
+        /// <param name="id">The ID of the invoice to delete.</param>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInvoice(int id)
         {
@@ -83,6 +117,4 @@ namespace CustomerInvoice_WebApp.Controllers
             return NoContent();
         }
     }
-
-
 }

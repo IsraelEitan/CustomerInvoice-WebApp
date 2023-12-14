@@ -10,6 +10,7 @@ using CustomerInvoice_WebApp.Helpers.interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using CustomerInvoice_WebApp.Validators;
 using CustomerInvoice_WebApp.Models;
+using System.Reflection;
 
 namespace CustomerInvoice_WebApp.Extensions
 {
@@ -48,6 +49,10 @@ namespace CustomerInvoice_WebApp.Extensions
                     Title = "CustomerInvoice Web App API",
                     Description = "CustomerInvoice Web App API (ASP.NET Core 7.0)",
                 });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             // Add memory cache if not already added
