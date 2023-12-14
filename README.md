@@ -27,6 +27,11 @@ Features
   
   Clean Architecture: Follows Clean Architecture guidelines for a maintainable and flexible codebase.
 
+
+NOTE:
+    The focus here is only on the Invoices hance the InvoicesController is the only controller that is written here.
+    The Customer models ( dto, model ) is for model demonstration and data purposes only. 
+
 Getting Started
 
 Prerequisites
